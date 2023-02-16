@@ -54,50 +54,50 @@ int checkpr(char temp){
 }
 void process(char ch[],int size){												
 
-	char stack[size];		
+	char st[size];		
 	char output[size];											
 	for(int i=0;i<size;i++){													
-		stack[i]='\0';																
+		st[i]='\0';																
 		output[i]='\0';															
 	}
-	int i,numstack=0,numoutput=0;															
+	int i,numst=0,numoutput=0;															
 	for(i=0;i<size;i++){														
 		if(ch[i]=='('){															
 			push(ch[i]);														
-			stack[numstack++]=ch[i];													
-			printf("%-2s%-8d%-13c%-15s%-20s\n","",i+1,ch[i],stack,output);					
+			st[numst++]=ch[i];													
+			printf("%-6d%-12c%-15s%-15s\n",i+1,ch[i],st,output);				
 		}
 		else if(ch[i]==')'){													
 			while(stacktop()!='('){												
 				output[numoutput++]=pop();												
-				stack[numstack--]='\0';													
+				st[numst--]='\0';													
 			}
 			pop();																
-			stack[numstack--]='\0';														
-			stack[numstack]='\0';														
-			printf("%-2s%-8d%-13c%-15s%-20s\n","",i+1,ch[i],stack,output);			
+			st[numst--]='\0';														
+			st[numst]='\0';														
+			printf("%-6d%-12c%-15s%-15s\n",i+1,ch[i],st,output);			
 		}
 		else if(isdigit(ch[i])||isalpha(ch[i])){								
 			output[numoutput++]=ch[i];													
-			printf("%-2s%-8d%-13c%-15s%-20s\n","",i+1,ch[i],stack,output);						
+			printf("%-6d%-12c%-15s%-15s\n",i+1,ch[i],st,output);					
 		}
 		else{																	
 			if(stacktop()== '\0'||stacktop()=='('){								
 				push(ch[i]);													
-				stack[numstack++]=ch[i];												
-				printf("%-2s%-8d%-13c%-15s%-20s\n","",i+1,ch[i],stack,output);				
+				st[numst++]=ch[i];												
+				printf("%-6d%-12c%-15s%-15s\n",i+1,ch[i],st,output);				
 			}
 			else{																
 				if(checkpr(ch[i])<=checkpr(stacktop())){						
 					while((checkpr(ch[i])<=checkpr(stacktop()))&&(stacktop()!='\0')){
 						                                                        
-						stack[numstack--]='\0';											
+						st[numst--]='\0';											
 						output[numoutput++]=pop();										
 					}
 				}
 				push(ch[i]);													
- 				stack[numstack++]=ch[i];												
-				printf("%-2s%-8d%-13c%-15s%-20s\n","",i+1,ch[i],stack,output);			
+ 				st[numst++]=ch[i];												
+				printf("%-6d%-12c%-15s%-15s\n",i+1,ch[i],st,output);			
 			}
 		}
 	}
@@ -107,7 +107,7 @@ void process(char ch[],int size){
 		count++;																
 	}
 	if(count>0){																
-		printf("%-2s%-8d%-13s%-15s%-20s\n","",i+1,"","",output);						
+		printf("%-6d%-13c%-15s%-14s\n",i+1,ch[i],st,output);						
 	}
 	printf("========================================================\n");
 	printf("Postfix: %s\n",output);												
@@ -117,17 +117,16 @@ void process(char ch[],int size){
 
 
 int main(){
-	printf("========================================================\n");
+	char infix[100];
+    printf("========================================================\n");
 	printf("---------------------# [G18] #------------------------\n");
     printf("------------------# Infix To Posfix #-------------------\n");
    	printf("========================================================\n");	
-	char infix[100];
-	int size;
 	printf("Infix: ");
 	scanf("%s",infix);
-	size = strlen(infix);
-	printf("========================================================\n");			 
-	printf("%-8s%-13s%-15s%-20s\n"," Step","Symbol","Stack","Outout"); 
+	int size = strlen(infix);
+	printf("========================================================");			 
+	printf("\n%-6s%-12s%-15s%-15s\n","Step","Symbol","Stack","Output"); 
 	printf("========================================================\n");
 	process(infix, size);
     return 0;
